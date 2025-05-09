@@ -1,0 +1,105 @@
+학생GIT정보 
+김성민, 경기도 고양시, 학생코드:3358
+	, https://github.com/soungminkim/ksm_mjc813exam
+
+김호중, 서울특별시 서대문구, 학생코드:3344
+	, https://github.com/hojoong123/khj_mjc813exam
+
+류한호, 인천광역시 서구 원당대로, 학생코드:3354
+	, https://github.com/fbgksgh/rhh_mjc813exam
+
+박수빈, 서울특별시 용산구 원효로, 학생코드:3341
+	, https://github.com/nol1214/psb_mjc813exam
+
+배준성, 경기도 화성시 동탄대로시범길, 학생코드:3360
+	, https://github.com/Bae-junsung/bjs_mjc813exam
+
+서준원, 인천광역시 부평구 체육관로, 학생코드:3349
+	, https://github.com/Se0jwon/sjw_mjc813Exam
+
+손기현, 서울특별시 은평구 불광천길, 학생코드:3351
+	, https://github.com/qhrmf34/sgh_mjc813Exam
+
+안성준, 경기도 남양주시 늘을1로, 학생코드:3352
+	, https://github.com/Asj-Cell/asj_mjc813exam
+
+윤종혁, 경기도 부천시 성곡로69번길, 학생코드:3343
+	, https://github.com/jong234/YJH_mjc813exam
+
+이성복, 서울특별시 서대문구 연희로41가길, 학생코드:3347
+	, https://github.com/lsungbok102/lsb_mjc813exam
+
+이승민, 서울특별시 송파구 백제고분로45길, 학생코드:3359
+	, https://github.com/smilegjsot/lsm_mjc813exam
+
+이예서, 서울특별시 관악구 은천로, 학생코드:3338
+	, https://github.com/dldPtj/lys_mjc813Exam
+
+이진환, 경기도 의정부시 오목로, 학생코드:3345
+	, https://github.com/Lee0302Hub/mjc813Lee
+
+이해성, 서울특별시 양천구 목동중앙본로5길, 학생코드:3362
+	, https://github.com/Lee-HaeSung/lhs_mjc183exam
+
+장민준, 서울특별시 은평구 역말로, 학생코드:3346
+	, https://github.com/jmj-jmj/realreal.git
+
+정윤석, 서울특별시 마포구 성암로11길,학생코드:3350
+	, https://github.com/kkb0411/jys_mjc813exam
+
+정해훈, 경기도 군포시 군포로485번길, 학생코드:3356
+	, https://github.com/jhh0101/jhh_mjc813exam
+
+정현서, 서울특별시 은평구 갈현로5길, 학생코드:3361
+	, https://github.com/JHS5020/jhs_mjc813exam
+
+진서연, 인천광역시 서구 청라한울로, 학생코드:3357
+	, https://github.com/seo-04/jsy_mjc813exam
+
+
+
+
+=======================================================
+GIT 설치 : https://git-scm.com
+GIT 클라이언트 설치
+(Git desktop, SourceTree, Tortoise GIT, Fork,...)
+IntelliJ 설치 : https://www.jetbrains.com
+Pycharm 설치 : https://www.jetbrains.com
+Eclipse 설치 : https://www.eclipse.com
+Putty 설치
+Putty 개인키 파일 설치
+Postman 설치
+모질라 설치
+오페라 설치
+크롬 설치
+파일질라 설치
+Docker 설치
+Dbeaver 설치
+Fiddler 설치
+
+
+
+=======================================================
+휴가목록
+
+04/04	김호중
+04/04	류한호
+04/04	이승민
+04/10	정윤석
+04/11	윤종혁
+04/23	진서연
+04/23	이성복
+04/25	이진환
+04/30	김성민
+05/02	이예서
+05/02	진서연
+05/02	박수빈
+05/02	윤종혁
+05/02	이해성
+05/02	손기현
+05/02	정해훈
+05/02	김호중
+05/02	정현서
+05/02	류한호
+05/02	서준원
+05/09	이예서
