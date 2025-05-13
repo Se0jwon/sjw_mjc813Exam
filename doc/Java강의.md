@@ -197,3 +197,54 @@ com.mjc.studyjava.MyMathMathic 클래스
 	int sumOfLoop(int a, int b); a 부터 b 까지의 총합계값을 리턴한다. 루프제어를 사용한다.
 	int sumOfFav(int a, int b); a 부터 b 까지의 총합계값을 리턴한다. 재귀호출을 사용한다.
 ```
+
+# 객체지향프로그램
+# 참조타입
+- 기본타입의 변수에 100이 저장되어 있다면 이것은 100이라는 값입니다.
+- 참조타입의 변수에 100이 저장되어 있다면 이것은 주소 100번지라는 것입니다.
+  참조타입은 대용량메모리가 필요하므로 힙메모리에 생성한다.
+  그리고 길이는 컴파일러가 계산해서 몇바이트 공간인지 알고 있다.
+- 스택메모리에 저장되는 것들 : 함수호출시 복귀주소, 함수호출시 매개변수
+  , 함수실행시 지역변수, 블록내의 지역변수, 함수실행후 리턴값
+- 힙메모리에 저장되는 것들 : 클래스가 new 로 생성되는 객체, 용량이 큰 데이터 들
+- 명령어코드가 저장되는 곳 : 메소드영역, 정적변수, 정적필드, 메소드코드들, 생성자코드들, 정적리터럴(상수)
+- 참조타입 변수의 비교연산은 주소가 비교된다. 값을 비교할려면 메소드를 사용한다.
+- null 은 오로지 참조타입 변수에서만 사용가능하다. null 일경우에는 NullExecption 이 발생하므로
+  변수에 null 이 아닌 값으로 초기화 하는게 좋다. null 체크를 잘해야 합니다.
+  public 메소드의 매개변수를 null 체크를 하세요.
+- String 클래스의 비교는 equals 메소드 사용
+  boolean equals(String s);	// 나의 문자열과 s 문자열을 비교하고 같으면 true 리턴
+  hobby.equals("") ===> "".equals(hobby)
+  int length();	// 나의 문자열의 길이를 리턴한다.
+  char charAt(int n); // 나의 문자열에서 n 번째 인덱스 문자 하나를 리턴한다.
+  String[] split(String s);	// 나의 문자열에서 s 문자열로 분리되는 문자들을 배열로 리턴
+  String replace(String s, String t);	// 나의문자열에서 s 문자를 t 문자로 바꿔서 리턴
+  String replaceAll(String s, String t);	// 나의문자열에서 s 문자를 t 문자로 계속 바꿔서 리턴
+  String substring(int start, int end);	// 나의문자열에서 인덱스번호가 start ~ end-1 까지 문자열을 리턴
+  int indexOf(String s);	// 나의문자열에서 s문자열이 몇번째 인덱스에서 찾았는지 리턴, -1 없다. 0부터시작
+- 배열
+  new 데이터형[] // 생성
+  int length	// 프로퍼티, 필드, 멤버변수, 속성
+  new 클래스[]
+- ArrayList<데이터형A> 변수명 = new ArrayList<데이터형A>();
+- List<데이터형BB> 변수명 = new ArrayList<데이터형BB>();
+```
+5월12일 문제
+com.mjc.studyjava.MyMathMathic 클래스
+	BigDecimal getBigDecimal(int n, int s);	// 정수 n 값과 소수 s 값인 BigDecimal 데이터형을 리턴하세요
+		예를 들어 getBigDecimal(3643, 5630932);	// BigDecimal 3643.5630932 를 리턴
+	Integer[] getIntegerArray(int[] array);	// int[] 배열을 Integer[] 로 변환해서 리턴
+	int[] makeRandomIntArray(int n); n 개의 랜덤한 int 값을 가지는 int[] 배열을 리턴
+	String makeEncryptString(String text, int n);	// text 문자열의 각 한 문자를 n 번째 배수 인덱스에 배치하는 랜덤 문자열을 리턴하세요.
+		랜덤문자열은 영문대문자, 영문소문자, 숫자 가능하다.
+		n 은 5이상 이어야 한다.
+		예를 들어 makeEncryptString("mjc813", 5);	=> A8dkIm8TkdjKLi9cu4Rs893sw1ksNm3
+	String makeDecryptString(String code, int n);	// code 문자열에서 n번째 배수 인덱스 문자를 뽑아서 하나의 문자열로 리턴하세요.
+		예를 들어 makeDecryptString("A8dkIm8TkdjKLi9cu4Rs893sw1ksNm3", 5);	=> mjc813
+	지금까지 만든 모든 메소드들에서 참조타입 매개변수의 값이 null 이면 기본데이터 값 0 또는 "" 또는 null 을 리턴하도록 수정하세요.
+```
+- 할당연산자 : =, +=, -=, ...
+  오른쪽항의 값과 처리하고 왼쪽항에 복사한다.
+  기본타입 데이터는 값을 복사합니다.	: 깊은복사
+  참조타입 데이터는 주소를 복사합니다. : 얕은복사,
+  참조타입데이터를 깊은복사를 하려면 참조타입데이터의 원소,값,멤버변수를 모두 복사해야 한다. Clone
