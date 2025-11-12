@@ -1,5 +1,6 @@
-import java.util.Arrays;
+
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,9 +11,23 @@ public class Solution120821 {
         sol.solution2(new int[] {1, 2, 3, 4, 5});
         sol.solution2(new int[] {1, 1, 1, 1, 1, 2});
         sol.solution2(new int[] {1, 0, 1, 1, 1, 3, 5});
+        for (String s : args) {
+            System.out.println(s);
+        }
+        MyEnumData med = MyEnumData.명지전문대;
+        System.out.println(med.name());
+        System.out.println(med.getValue());
+        String s1 = "홍길동";
+        String s2 = "홍길동";
+        String s3 = new String("홍길동");
+        String s4 = new String("홍길동");
+        System.out.println(s1.hashCode());
+        System.out.println(s2.hashCode());
+        System.out.println(s3.hashCode());
+        System.out.println(s4.hashCode());
     }
     public int[] solution(int[] num_list) {
-        List<Integer> numList = Arrays.stream(num_list)
+        List<Integer> numList = java.util.Arrays.stream(num_list)
                 .boxed().collect(Collectors.toList());
         // int[] 데이터형을 ArrayList<Integer> 변환
         Collections.reverse(numList);
@@ -48,12 +63,20 @@ public class Solution120821 {
             // j => 0, 1, 2, 3, ... n-2, n-1;
             result[i] = num_list[num_list.length - i - 1];
         }
-        System.out.println("solution2 : " + this.printArrayList(result));
+        System.out.println("solution2 : " + this.printArray(result));
         return result;
     }
-    public String printArrayList(int[] arr) {
+    public String printArray(int[] arr) {
         String result = ""; // 문자열 초기화
         for (int item : arr) {  // javascript : for (x of arr)
+            result += item + ", ";  // 배열원소 0 ~ n 번째까지 문자열 연결
+        }
+        return result.substring(0, result.length() - 2);
+        // 맨마지막 ", " 2글자 삭제해서 리턴
+    }
+    public String printArray(char[] arr) {
+        String result = ""; // 문자열 초기화
+        for (char item : arr) {  // javascript : for (x of arr)
             result += item + ", ";  // 배열원소 0 ~ n 번째까지 문자열 연결
         }
         return result.substring(0, result.length() - 2);

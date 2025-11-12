@@ -11,15 +11,15 @@ public class ThisIsJavaChap04Exam {
      * @return
      */
     public String solve04() {
-        int[][] result = new int[4][2];
-        while( !this.checkAllResult(result) ) {
+        String result = "";
+        while( "".equals(result) ) {
             int dice01 = this.getRandomDice();
             int dice02 = this.getRandomDice();
 //            if ( dice01 과 dice02 를 이용하여 합이 5인지 ) {
-//                  dice01 과 dice02 를 배열에 저장
+//                  result = "(x,y)";출력하면 끝
 //            }
         }
-        return "";
+        return result;
     }
 
     /**
@@ -28,36 +28,6 @@ public class ThisIsJavaChap04Exam {
      */
     private int getRandomDice() {
         return 0;
-    }
-
-    /**
-     * int[4][2] 배열 result 의 모든 원소가 꽉 차 있으면 true 를 리턴한다.
-     * @param result
-     * @return
-     */
-    private boolean checkAllResult( int[][] result ) {
-        // for 2번 중첩해서 값이 (0, 0) 이면 false 이고, 모두 (0,0) 이 아니면 true
-        return false;
-    }
-
-    /**
-     * a 주사위 값과 b 주사위 값을 result 배열에 저장한다.
-     * @param a
-     * @param b
-     */
-    private void setResultFromDices(int[][] result, int a, int b) {
-        // for 2번 중첩해서 값이 0, 0 인곳에만 저장 하세요.
-        for ( int i = 0; i < result.length; i++ ) {
-            for ( int j = 0; j < result[i].length; j++ ) {
-                // if ( 값이 0, 0 이 아니면 ) {
-                // a, b 를 0, 0 에 저장하세요
-                // }
-            }
-        }
-    }
-    private String getResultString(int[][] result) {
-        // for 2번 중첩해서 모든 원소를 문자열로 표시해야 한다. (3,2), (1,4), ...
-        return "";
     }
 
     /**
