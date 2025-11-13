@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: gugudan_mustache
+
+server:
+  port: 18080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+#  error:
+#    whitelabel:
+#      enabled: false
+#    path: /error

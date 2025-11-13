@@ -60,3 +60,15 @@ bin/
 /temp/
 
 ~$*.xlsx
+
+.smarttomcat/
+mysql-data/
+ora_data/
+gradle/
+gradlew
+gradlew.bat
+.gitattributes
+maven-wrapper.properties
+mvnw
+mvnw.cmd
+*.iml

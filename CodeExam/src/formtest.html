@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>html Test</title>
+  <script src="test.js"></script>
+</head>
+
+<body>
+<h1>The form element</h1>
+
+<form action="" method="post">
+  <label for="fName">First name:</label>
+  <input type="text" id="fName" name="fName" /><br/><br/>
+
+  <label for="lName">Last name:</label>
+  <input type="text" id="lName" name="lName" /><br/><br/>
+
+  <label for="chkOnOff">On/Off</label>
+  <input type="checkbox" id="chkOnOff" name="chkOnOff" /><br/>
+
+  <label for="color">색깔선택</label>
+  <input type="color" id="color" name="color"><br/>
+
+  <label for="date">날짜선택</label>
+  <input type="date" id="date" name="date" /><br/>
+
+  <label for="dtLocal">날짜시간선택</label>
+  <input type="datetime-local" id="dtLocal" name="dtLocal" /><br/>
+
+  <label for="email">이메일</label>
+  <input type="email" id="email" name="email" /><br/>
+
+  <label for="file">첨부파일</label>
+  <input type="file" id="file" name="file" /><br/>
+
+  <label for="hidden">hidden</label>
+  <input type="hidden" id="hidden" name="hidden" value="숨김값" /><br/>
+
+  <label for="image">image</label>
+  <input type="image" id="image" alt="이미지" name="image" /><br/>
+
+  <label for="month">month</label>
+  <input type="month" id="month" name="month" /><br/>
+
+  <label for="number">number</label>
+  <input type="number" id="number" name="number"/><br/>
+
+  <label for="password">password</label>
+  <input type="password" id="password" name="password" /><br/>
+
+  <label for="radioMan">남자</label>
+  <input type="radio" id="radioMan" name="radioHuman" value="M" /><br/>
+  <label for="radioWoman">여자</label>
+  <input type="radio" id="radioWoman" name="radioHuman" value="F"/><br/>
+  <label for="radioBaby">아기</label>
+  <input type="radio" id="radioBaby" name="radioBC" value="B"/><br/>
+  <label for="radioChild">어린이</label>
+  <input type="radio" id="radioChild" name="radioBC" value="C"/><br/>
+
+  <label for="range">range</label>
+  <input type="range" id="range" name="range" /><br/>
+
+  <label for="search">search</label>
+  <input type="search" id="search" name="search" /><br/>
+
+  <label for="tel">tel</label>
+  <input type="tel" id="tel" name="tel" /><br/>
+
+  <label for="time">time</label>
+  <input type="time" id="time" name="time" /><br/>
+
+  <label for="url">url</label>
+  <input type="url" id="url" name="url" /><br/>
+
+  <label for="week">week</label>
+  <input type="week" id="week" name="week" /><br/>
+
+  <label for="textArea">긴문장블록</label>
+  <textarea id="textArea" name="textArea" rows="7" cols="80">기본문자열블록</textarea><br/>
+
+  <label for="select">선택박스</label>
+  <select id="select" name="select">
+    <option value="leesm">이승민</option>
+    <option value="ansj">안성준</option>
+    <option value="hongkd">홍길동</option>
+    <option value="leesuns">이순신</option>
+  </select><br/>
+
+  <label for="submit">전송</label>
+  <input type="submit" value="Submit" id="submit" /><br/>
+  <label for="reset">reset</label>
+  <input type="reset" id="reset" /><br/>
+</form>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="50px" viewBox="0 0 536 512">
+  <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+  <path d="M309.6 158.5L332.7 19.8C334.6 8.4 344.5 0 356.1 0c7.5 0 14.5 3.5 19 9.5L392 32l52.1 0c12.7 0 24.9 5.1 33.9 14.1L496 64l56 0c13.3 0 24 10.7 24 24l0 24c0 44.2-35.8 80-80 80l-32 0-16 0-21.3 0-5.1 30.5-112-64zM416 256.1L416 480c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-115.2c-24 12.3-51.2 19.2-80 19.2s-56-6.9-80-19.2L160 480c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-230.2c-28.8-10.9-51.4-35.3-59.2-66.5L1 167.8c-4.3-17.1 6.1-34.5 23.3-38.8s34.5 6.1 38.8 23.3l3.9 15.5C70.5 182 83.3 192 98 192l30 0 16 0 159.8 0L416 256.1zM464 80a16 16 0 1 0 -32 0 16 16 0 1 0 32 0z"/>
+</svg>
+
+<p>Click the "Submit" button and the form-data will be sent to a page on the
+  server called "".</p>
+
+</body>
+<script>
+  let nameObject = document.getElementById("fName");
+  nameObject.value =  "성입니다.";
+  let labelName = document.querySelector("body > form > label:nth-child(1)");
+  labelName.innerText = "성을 입력하세요.";
+  // alert( document.getElementById("fName").value );
+  document.getElementById("date").style.fontSize = "35px";
+  document.getElementById("dtLocal").style.backgroundColor = "#ff0000";
+
+  console.log("이름 레이블 : " + labelName.innerText);
+</script>
+</html>

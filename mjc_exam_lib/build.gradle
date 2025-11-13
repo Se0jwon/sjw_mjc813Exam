@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.mjc813'
+version = '1.0.0.1'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            artifactId = rootProject.name
+            version = version
+
+            artifact "./build/libs/" + rootProject.name + "-" + version + ".jar"
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

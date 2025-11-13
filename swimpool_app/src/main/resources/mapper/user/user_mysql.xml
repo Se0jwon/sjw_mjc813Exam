@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mjc813.swimpool_app.user.service.UserMapper">
+    <insert id="insert" parameterType="UserDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_tbl (
+            name
+            , username
+            , password
+            , phone_number
+            , email
+            , role
+            , max_lock
+        ) VALUES (
+            #{name}
+            , #{username}
+            , #{password}
+            , #{phoneNumber}
+            , #{email}
+            , #{role}
+            , #{maxLock}
+        )
+    </insert>
+
+    <update id="update" parameterType="UserDto">
+        UPDATE user_tbl SET
+            id = #{id}
+        <if test="name != null and name != ''">
+            , name = #{name}
+        </if>
+        <if test="username != null and username != ''">
+            , username = #{username}
+        </if>
+        <if test="password != null and password != ''">
+          , password = #{password}
+        </if>
+        <if test="phoneNumber != null and phoneNumber != ''">
+          , phone_number =#{phoneNumber}
+        </if>
+        <if test="email != null and email != ''">
+          , email = #{email}
+        </if>
+        <if test="role != null and role != ''">
+          , role = #{role}
+        </if>
+        <if test="maxLock != null and maxLock gte 0 and maxLock lte 10">
+          , max_lock = #{maxLock}
+        </if>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateChkFindValid" parameterType="UserDto">
+        UPDATE user_tbl SET
+            check_find_valid = #{checkFindValid}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM user_tbl
+        WHERE id = #{id}
+    </delete>
+
+    <sql id="selectTupleSql">
+        id
+        , name
+        , username
+        , password
+        , phone_number
+        , email
+        , role
+        , max_lock
+        , check_find_valid
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            1 = 1
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="username != null and username != ''">
+                AND username LIKE CONCAT('%', #{username}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="findById" resultType="UserDto" parameterType="Long">
+        SELECT
+        <include refid="selectTupleSql" />
+        FROM user_tbl
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultType="UserDto">
+        SELECT
+        <include refid="selectTupleSql" />
+        FROM user_tbl
+        ORDER BY ID DESC
+    </select>
+
+    <select id="countByWhere" resultType="Long" parameterType="org.springframework.data.domain.Pageable">
+        SELECT
+        count(*) as total
+        FROM user_tbl
+        <include refid="whereSql" />
+        ORDER BY ID DESC
+    </select>
+
+    <select id="findByWhere" resultType="UserDto" parameterType="org.springframework.data.domain.Pageable">
+        SELECT
+        <include refid="selectTupleSql" />
+        FROM user_tbl
+        <include refid="whereSql" />
+        ORDER BY ID DESC
+        LIMIT #{pageable.pageSize} OFFSET #{pageable.pageNumber}
+    </select>
+
+    <select id="findByUsername" resultType="UserDto">
+        SELECT
+        <include refid="selectTupleSql" />
+        FROM user_tbl
+        WHERE username = #{username}
+    </select>
+</mapper>

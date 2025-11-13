@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mjc813.contact_web.service.IContactMybatisMapper">
+
+    <insert id="insert" parameterType="Contact" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO contact_tbl (
+            name
+            , phone_number
+            , zip_number
+            , email
+        ) VALUES (
+            #{name}
+            , #{phoneNumber}
+            , #{zipNumber}
+            , #{email}
+        )
+    </insert>
+
+    <select id="countAll" resultType="Long">
+        SELECT count(*) as tot_rows
+        FROM contact_tbl
+    </select>
+
+
+    <select id="selectAll" resultType="Contact" parameterType="PagingDto">
+        SELECT id
+            , name
+            , phone_number
+            , zip_number
+            , email
+        FROM contact_tbl
+        ORDER BY id DESC
+        LIMIT #{rws} OFFSET #{off}
+    </select>
+
+    <select id="selectOne" resultType="Contact" parameterType="Long">
+        SELECT id
+             , name
+             , phone_number
+             , zip_number
+             , email
+        FROM contact_tbl
+        WHERE id = #{id}
+    </select>
+
+    <update id="update" parameterType="Contact">
+        UPDATE contact_tbl SET
+            name = #{name}
+            , phone_number = #{phoneNumber}
+            , zip_number = #{zipNumber}
+            , email = #{email}
+        WHERE id = #{id}
+    </update>
+</mapper>

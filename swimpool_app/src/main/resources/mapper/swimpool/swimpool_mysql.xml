@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mjc813.swimpool_app.swimpool.service.SwimpoolMapper">
+    <select id="findAll" resultType="SwimpoolDto">
+        SELECT
+            id
+            , name
+            , lanes
+            , lane_type
+            , phone_number
+            , addr
+        FROM swimpool_tbl
+        ORDER BY ID DESC
+    </select>
+
+    <sql id="selectTupleSql">
+        id
+        , name
+        , lanes
+        , lane_type
+        , phone_number
+        , addr
+    </sql>
+
+    <sql id="whereSql">
+        <where>
+            1 = 1
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="laneType != null and laneType != ''">
+                AND lane_type = #{laneType}
+            </if>
+            <if test="phoneNumber != null and phoneNumber != ''">
+                AND phone_number LIKE CONCAT('%', #{phoneNumber}, '%')
+            </if>
+            <if test="addr != null and addr != ''">
+                AND addr LIKE CONCAT('%', #{addr}, '%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="countByWhere" resultType="Integer" parameterType="SwimpoolSearchingDto">
+        SELECT
+            count(*) as total
+        FROM swimpool_tbl
+        <include refid="whereSql" />
+        ORDER BY ID DESC
+    </select>
+
+    <select id="findByWhere" resultType="SwimpoolDto" parameterType="SwimpoolSearchingDto">
+        SELECT
+            <include refid="selectTupleSql" />
+        FROM swimpool_tbl
+        <include refid="whereSql" />
+        ORDER BY ID DESC
+        LIMIT #{resultList.rowsPage} OFFSET #{offset}
+    </select>
+
+    <select id="findById" resultType="SwimpoolDto" parameterType="Integer">
+        SELECT
+            <include refid="selectTupleSql" />
+        FROM swimpool_tbl
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="SwimpoolDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            swimpool_tbl ( name
+                         , lanes
+                         , lane_type
+                         , phone_number
+                         , addr)
+        VALUES (
+                 #{name}
+               , #{lanes}
+               , #{laneType}
+               , #{phoneNumber}
+               , #{addr}
+               )
+    </insert>
+
+    <update id="update" parameterType="SwimpoolDto">
+        UPDATE swimpool_tbl SET
+            name = #{name}
+          , lanes = #{lanes}
+          , lane_type = #{laneType}
+          , phone_number =#{phoneNumber}
+          , addr = #{addr}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM swimpool_tbl
+        WHERE id = #{id}
+    </delete>
+</mapper>

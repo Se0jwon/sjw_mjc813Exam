@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: swimpool_app
+  datasource: # mysql 접속
+#    url: jdbc:mysql://localhost:3306/swimpool_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# 접속 URL
+#    driver-class-name: com.mysql.cj.jdbc.Driver  # JDBC 드라이버 (MySQL 용도)
+    url: jdbc:log4jdbc:mysql://localhost:3306/swimpool_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# 접속 URL
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: swimmer  # mysql 유저
+    password: swimmer1234!  # mysql 유저 암호
+  mustache:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    charset: UTF-8
+    servlet:
+      cache: false
+  session:
+    timeout: 120s
+
+server:
+  port: 8084
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+### cookie 설정 반영 안됨
+#    session:
+#      cookie:
+#        http-only: true
+#        secure: true
+#        max-age: 600
+#        same-site: lax
+#        path: /
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.mjc813.swimpool_app
+  configuration:
+    map-underscore-to-camel-case: true

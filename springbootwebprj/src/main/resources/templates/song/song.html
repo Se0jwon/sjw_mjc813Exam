@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>음악 관리</title>
+    <link href="/css/modal.css" rel="stylesheet" />
+    <script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1 class="">음악 관리 페이지</h1>
+    <div class="">
+        <div class="">
+            <input type="text" id="searchTitle" maxlength="30" />
+            <input type="text" id="searchArtist" maxlength="20" />
+            <select id="pageSize">
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <button onclick="loadData();">검색</button>
+        </div>
+        <ul class="">
+            <li class="">
+                <span class="">ID
+                    <button id="id-desc" class="btn_desc btnOrder">▼</button>
+                    <button id="id-asc" class="btn_asc btnOrder">△</button>
+                </span>
+                <span class="">제목
+                    <button id="title-desc" class="btn_desc btnOrder">▽</button>
+                    <button id="title-asc" class="btn_asc btnOrder">△</button>
+                </span>
+                <span class="">장르
+                    <button id="genre_name-desc" class="btn_desc btnOrder">▽</button>
+                    <button id="genre_name-asc" class="btn_asc btnOrder">△</button>
+                </span>
+                <span class="">Artist
+                    <button id="artist-desc" class="btn_desc btnOrder">▽</button>
+                    <button id="artist-asc" class="btn_asc btnOrder">△</button>
+                </span>
+                <span class="">작곡가
+                    <button id="composer-desc" class="btn_desc btnOrder">▽</button>
+                    <button id="composer-asc" class="btn_asc btnOrder">△</button>
+                </span>
+                <span class="">발매일
+                    <button id="release_date-desc" class="btn_desc btnOrder">▽</button>
+                    <button id="release_date-asc" class="btn_asc btnOrder">△</button>
+                </span>
+            </li>
+            <div id="listData" class="">
+            </div>
+            <div id="pageButtons" class="">
+            </div>
+        </ul>
+    </div>
+    <div>
+        <button id="showAddModalButton">음악 추가</button>
+    </div>
+    <div id="modal_box_add" style="display: none; width: 50%; height: 300px;">
+        <h2 id="modalTitle">음악 추가</h2>
+        <fieldset>
+            <div id="divId" class="row"><span for="id">ID</span><input type="number" id="id" maxlength="20" readonly disabled /></div>
+            <div class="row"><span for="title">음악곡이름</span><input type="text" id="title" maxlength="50" /></div>
+            <div class="row"><span for="genreId">음악장르</span><select id="genreId"></select></div>
+            <div class="row"><span for="artist">아티스트</span><input type="text" id="artist" maxlength="30" /></div>
+            <div class="row"><span for="composer">작곡가</span><input type="text" id="composer" maxlength="20" /></div>
+            <div class="row"><span for="releaseDate">발매일</span><input type="date" id="releaseDate" maxlength="50" /></div>
+            <div class="row">
+                <button id="btnInsert" onclick="$.insert();">추가확인</button>
+                <button id="btnUpdate" onclick="$.update();">수정확인</button>
+                <button id="btnDelete" onclick="$.delete();">삭제확인</button>
+                <button class="modalCloseButton">닫기</button>
+            </div>
+        </fieldset>
+    </div>
+    <div class="modal_bg" style="display: none"></div>
+</body>
+<script>
+    let curPage = 1;
+    let sortString = "id,desc";
+    $(document).ready(function () {
+        $("#listData").empty();
+        $.loadGenre();
+        loadData();
+
+        $('#showAddModalButton').click(function () {
+            $.showInsertModal();
+        });
+
+        $('.modalCloseButton').click(function () {
+            $.clearForm();
+            // id="modal_box_add" 요소와 class="modal_bg" 요소를 서서히 감춘다.
+            $('#modal_box_add').fadeOut();
+            $('.modal_bg').fadeOut();
+        });
+
+        $(".btnOrder").click(function() {
+            $.orderBy(this.id);
+        })
+    });
+
+    $.orderBy = (id) => {
+        $(".btn_desc").text("▽");
+        $(".btn_asc").text("△");
+        if ( id.indexOf("desc") >= 0 ) {
+            $("#" + id).text("▼");
+        } else {
+            $("#" + id).text("▲");
+        }
+        sortString = id.replace("-", ",");
+        loadData();
+    };
+
+    $.showInsertModal = () => {
+        $.clearForm();
+        $("#modalTitle").text("음악 추가");
+        $("#divId").hide();
+        $("#btnInsert").show();
+        $("#btnUpdate").hide();
+        $("#btnDelete").hide();
+        // id="modal_box_add" 요소를 1000ms 동안 서서히 보여준다.
+        $('#modal_box_add').fadeIn(300);
+        $('.modal_bg').fadeIn(300);
+    }
+
+    $.showUpdateModal = () => {
+        $.clearForm();
+        $("#modalTitle").text("음악 보기/수정");
+        $("#divId").show();
+        $("#btnInsert").hide();
+        $("#btnUpdate").show();
+        $("#btnDelete").show();
+        // id="modal_box_add" 요소를 1000ms 동안 서서히 보여준다.
+        $('#modal_box_add').fadeIn(300);
+        $('.modal_bg').fadeIn(300);
+    }
+
+    $.goPage = (num) => {
+        curPage = num;
+        loadData();
+    }
+
+    function loadData() {
+        let pageRequest = {
+            searchTitle: $("#searchTitle").val()
+            , searchArtist: $("#searchArtist").val()
+            , "curPage": curPage - 1
+            , sizePage: $("#pageSize").val()
+            , sort: sortString
+        };
+        $.ajax({
+            url: `/song?title=${pageRequest.searchTitle}&artist=${pageRequest.searchArtist}&page=${pageRequest.curPage}&size=${pageRequest.sizePage}&sort=${pageRequest.sort}`
+            , type: 'GET'
+        })
+            .done(function (data, textStatus, jqXHR) {
+                console.log("Success:", data.resultData);
+                $.printData(data.resultData);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                // alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+                $.showErrors(jqXHR.responseJSON);
+            });
+    }
+
+    $.printData = (data) => {
+        $.printList(data.content);
+        $.printPage(data);
+    }
+
+    $.printList = (list) => {
+        $("#listData").empty();
+        for (let i = 0; i < list.length; i++) {
+            let item = list[i];
+            let html = `<li>
+                            <span>${item.id}</span>
+                            <span onclick="$.showInfo(${item.id});" style="cursor: pointer;">${item.title}</span>
+                            <span>${item.genreName}</span>
+                            <span>${item.artist}</span>
+                            <span>${item.composer}</span>
+                            <span>${item.releaseDate}</span>
+                        </li>`;
+            $("#listData").append(html);
+        }
+    }
+
+    $.printPage = (paging) => {
+        // 전체페이지수   // 현재페이지수   // 시작페이지    // 마지막페이지
+        // 21           // 13           // 11          // 15
+        // 21           // 2            // 1           // 5
+        // 21           // 9            // 7           // 11
+        // 21           // 20           // 18          // 21
+        let curPage = paging.number + 1;
+        let totalPage = paging.totalPages;
+        let prevPage = curPage - 1 <= 1 ? 1 : curPage - 1;
+        let nextPage = curPage + 1 >= totalPage ? totalPage : curPage + 1;
+        let prevBtn = curPage <= 1 ? `<button>.</button>` : `<button onClick="$.goPage(${prevPage})">←</button>`;
+        let nextBtn = curPage >= totalPage ? `<button>.</button>` : `<button onClick="$.goPage(${nextPage})">→</button>`
+        let fiveBtn = "";
+        let startPage = curPage <= 3 ? 1 : curPage - 2;
+        let endPage = curPage + 2 > totalPage ? totalPage : totalPage < 5 ? totalPage : curPage + 2 < 5 ? 5 : curPage + 2;
+        for ( let count = 1, page = startPage; count <= 5 && page <= endPage; count++, page++ ) {
+            if ( page === curPage ) {
+                fiveBtn += `<button onClick="$.goPage(${page})"><b>${page}</b></button>`;
+            } else {
+                fiveBtn += `<button onClick="$.goPage(${page})">${page}</button>`;
+            }
+        }
+        $("#pageButtons").empty();
+        $("#pageButtons").html(prevBtn + fiveBtn + nextBtn);
+    }
+
+    $.loadGenre = function () {
+        $.ajax({
+            url: `/genre?name=&page=0&size=99999999&sort=name,asc`
+            , type: 'GET'
+        })
+            .done(function (data, textStatus, jqXHR) {
+                console.log("Success:", data.resultData);
+                $.printGenre(data.resultData.content);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                // alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+                $.showErrors(jqXHR.responseJSON);
+            });
+    }
+
+    $.printGenre = function (list) {
+        $("#genreId").empty();
+        // list.forEach(function(item, index) {
+        //     let html = `<option value="${item.id}">${item.name}</option>`;
+        //     $("#genreId").append(html);
+        // })
+        for (let item of list) {
+            let html = `<option value="${item.id}">${item.name}</option>`;
+            $("#genreId").append(html);
+        }
+    }
+
+    $.isValid = () => {
+        let inputData = {
+            "title": $("#title").val()
+            , "genreId": $("#genreId").val()
+            , "composer": $("#composer").val()
+            , "artist": $("#artist").val()
+            , "releaseDate": $("#releaseDate").val()
+        };
+        if ( inputData.title === '' ) {
+            alert('Please input title !');
+            $("#title").focus();
+            return false;
+        } else if ( inputData.genreId == null ) {
+            alert('Please select genre !');
+            $("#genreId").focus();
+            return false;
+        } else if ( inputData.artist === '' ) {
+            alert('Please input artist !');
+            $("#artist").focus();
+            return false;
+        } else if ( inputData.composer === '' ) {
+            alert('Please input composer !');
+            $("#composer").focus();
+            return false;
+        }
+        return true;
+    }
+
+    $.insert = () => {
+        if( $.isValid() === false ) {
+            return;
+        }
+        let title = $("#title").val();
+        if ( confirm(`Are you ok insert [${title}] ?`) === false ) {
+            return;
+        }
+        let inputData = {
+            "title": title
+            , "genreId": $("#genreId").val()
+            , "composer": $("#composer").val()
+            , "artist": $("#artist").val()
+            , "releaseDate": $("#releaseDate").val()
+        };
+        $.ajax({
+            url: `/song`
+            , type: 'post'
+            , data: JSON.stringify(inputData)
+            , datatype: "JSON"
+            , contentType: 'application/json'
+        })
+        .done(function (data, textStatus, jqXHR) {
+            console.log("Success:", data.resultData);
+            loadData();
+            $(".modalCloseButton").trigger("click");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("Error:", jqXHR, textStatus, errorThrown);
+            // alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+            $.showErrors(jqXHR.responseJSON);
+        });
+    }
+
+    $.showErrors = function(json) {
+        if ( json.resultCode != null ) {
+            alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+        } else {
+            let msg = "";
+            for ( let i = 0; i < json.errors.length; i++ ) {
+                let item = json.errors[i];
+                msg += `${item.field} : ${item.defaultMessage}\n`;
+            }
+            alert(`${json.error}\n${msg}`);
+        }
+    }
+
+    $.clearForm = function () {
+        let data = {
+            "id": ""
+            , "title": ""
+            , "genreId": 0
+            , "composer": ""
+            , "artist": ""
+            , "releaseDate": ""
+        };
+        $.setInputModal(data);
+    }
+
+    $.setInputModal = function (data) {
+        $("#id").val(data.id);
+        $("#title").val(data.title);
+        $("#genreId").val(data.genreId);
+        $("#artist").val(data.artist);
+        $("#composer").val(data.composer);
+        $("#releaseDate").val(data.releaseDate);
+    }
+
+    $.showInfo = function (id) {
+        $.ajax({
+            url: `/song/` + id
+            , type: 'get'
+        })
+            .done(function (data, textStatus, jqXHR) {
+                console.log("Success:", data.resultData);
+                $.showUpdateModal();
+                $.setInputModal(data.resultData);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                // alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+                $.showErrors(jqXHR.responseJSON);
+            });
+    }
+
+    $.update = function() {
+        if( $.isValid() === false ) {
+            return;
+        }
+        let title = $("#title").val();
+        if ( confirm(`Are you ok update [${title}] ?`) === false ) {
+            return;
+        }
+        let updateData = {
+            "id": $("#id").val()
+            , "title": $("#title").val()
+            , "genreId": $("#genreId").val()
+            , "composer": $("#composer").val()
+            , "artist": $("#artist").val()
+            , "releaseDate": $("#releaseDate").val()
+        };
+        $.ajax({
+            url: `/song/` + $("#id").val()
+            , type: 'patch'
+            , data: JSON.stringify(updateData)
+            , datatype: "JSON"
+            , contentType: 'application/json'
+        })
+        .done(function (data, textStatus, jqXHR) {
+            console.log("Success:", data.resultData);
+            loadData();
+            $(".modalCloseButton").trigger("click");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("Error:", jqXHR, textStatus, errorThrown);
+            // alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+            $.showErrors(jqXHR.responseJSON);
+        });
+    }
+
+    $.delete = function() {
+        let id = $("#id").val();
+        if ( confirm(`Are you ok delete [${id}] ?`) === false ) {
+            return;
+        }
+        $.ajax({
+            url: `/song/` + id
+            , type: 'delete'
+        })
+        .done(function (data, textStatus, jqXHR) {
+            console.log("Success:", data.resultData);
+            loadData();
+            $(".modalCloseButton").trigger("click");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log("Error:", jqXHR, textStatus, errorThrown);
+            // alert(`${jqXHR.responseJSON.resultCode} : ${jqXHR.responseJSON.message}`);
+            $.showErrors(jqXHR.responseJSON);
+        });
+    }
+</script>
+</html>

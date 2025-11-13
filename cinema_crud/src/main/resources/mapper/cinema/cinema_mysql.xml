@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mjc813.cinema_crud.cinema.service.CinemaMybatisMapper">
+    <insert id="insertCinema" parameterType="CinemaDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO cinema_tbl (
+            name
+            , genre_id
+            , play_time
+            , casts
+            , description
+            , restrict_age
+        ) VALUES (
+            #{name}
+            , #{genreId}
+            , #{playTime}
+            , #{casts}
+            , #{description}
+            , #{restrictAge}
+        )
+    </insert>
+
+    <select id="findById" parameterType="Long" resultType="CinemaGenreDto">
+        SELECT
+            ct.id
+            , ct.name
+            , ct.genre_id
+            , ct.play_time
+            , ct.casts
+            , ct.description
+            , ct.restrict_age
+            , gt.name AS genre_name
+        FROM cinema_tbl AS ct
+            INNER JOIN genre_tbl AS gt ON ct.genre_id = gt.id
+        WHERE ct.id = #{id}
+    </select>
+
+    <select id="findByWhere" resultType="CinemaGenreDto">
+        SELECT
+            ct.id
+            , ct.name
+            , ct.genre_id
+            , gt.name AS genre_name
+            , ct.play_time
+            , ct.casts
+            , ct.description
+            , ct.restrict_age
+        FROM cinema_tbl AS ct
+            INNER JOIN genre_tbl AS gt ON ct.genre_id = gt.id
+        ORDER BY ct.id DESC
+    </select>
+
+    <update id="update" parameterType="CinemaDto">
+        UPDATE cinema_tbl SET
+            name = #{name}
+            , genre_id      = #{genreId}
+            , play_time     = #{playTime}
+            , casts         = #{casts}
+            , description   = #{description}
+            , restrict_age  = #{restrictAge}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM cinema_tbl
+        WHERE id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    {{#find}}
+            <input type="hidden" id="id" value="{{id}}"/>
+            <input type="hidden" id="checkFindValid" value="{{checkFindValid}}"/>
+            <input type="password" id="password" />
+            <button onclick="$.submit();">새비밀번호입력</button>
+            <button id="okbutton">새비밀번호입력</button>
+    {{/find}}
+    {{^find}}
+        <h1>You are not right permission !</h1>
+    {{/find}}
+</body>
+<script>
+    $(document).ready(function() {
+        $("#okbutton").click(function() {
+            $.submit();
+        });
+    });
+
+    $.submit = function() {
+        let loginData = {
+            "id" : $("#id").val()
+            , "password" : $("#password").val()
+            , "checkFindValid" : $("#checkFindValid").val()
+        }
+        $.ajax({
+            url: "/api/v1/findandchangepassword",
+            type: "POST",
+            data: JSON.stringify(loginData),
+            datatype: "JSON",
+            contentType: 'application/json',
+        })
+            .done(function(a, b, c){
+                alert('암호변경성공');
+                document.location.href = "/";
+            })
+            .fail(function(a, b, c){
+                alert('암호변경실패');
+            })
+    }
+</script>
+</html>

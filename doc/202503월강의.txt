@@ -1,0 +1,531 @@
+03/24
+1. 소개
+이름 : 최원철
+나이 : 1970년생
+주언어 : C계열, Java계열
+이메일 : sincerus@hanmail.net
+폰번호 : 010-9438-5323
+
+javac : java 소스를 java class 바이너리로 컴파일
+java : java class 바이너리를 실행한다.
+JVM : java vertual machine 이 있는 컴퓨터에서는 java 클래스가 모두 실행 가능하다.
+Java version : 1.0, 1.6, 1.7, 1.8, 11, 21 LTS(Long Term Support) 다운로드
+
+IDE : 통합 개발 환경 Integrated Develope Environment, 인텔리제이(IntelliJ),
+	전자정부프레임워크, STS (Eclipse), Visual Code
+	소스개발, 형상관리(소스를 팀원들과 공유하거나 버전을 발행, GIT, SVN, CVS)
+	빌드(컴파일,링크,라이브러리)
+	테스트(단위테스트 JUnit 4, 5, 단위테스트 소스를 개발)
+
+자바의 Class 는 파일이름과 같다.
+클래스 선언 할때
+public class 클래스이름 {
+}
+자바의 Class 에는 변수와 함수가 존재할 수 있다.
+변수 선언 할때
+데이터타입 변수명 = 1;
+함수 선언 할때
+[접근제한자 public/protected/internal/private] 리턴데이터형 함수이름(매개변수 나열) {
+함수의 실행할 문장들
+return [변수/값];
+}
+
+
+컴퓨터 구조
+CPU : 비트단위
+AX(0x10), BX, CX, DX, DI, SI, ...IR(0x10), SP, DP
+8bit : 2^8 공간의 자료를 액세스 할수 있는 주소를 가질수 있다. 256 Byte
+0x34, 0x12, 0x45, 
+
+시작주소 = malloc(0x1000);
+0x100000 ~ 0x100999
+free(시작주소)
+
+
+자바의 클래스란
+프로그래머가 값(변수,필드)과 동작(함수,메소드) 등을 이용하여
+어떤 일을 하는 물체의 설계도와 비슷하다. 선언용도
+값과 동작을 숨기거나 오픈할수 있는것이 접근제한자
+public : 모두 오픈, 오픈할 메소드에게 사용하는게 좋다.
+protected : 객체지향언어에서의 직계자식객체에게 오픈,
+     오버라이딩 할 수 있다
+default : 같은 패키지에게 오픈
+private : 다른객체에 오픈하지 않고 나만 사용한다.
+     변수,필드에게 사용해야한다.
+     변수,필드에 값을 저장하거나 읽을때는 public 메소드를 통해서 사용.
+
+자바의 인스턴스란
+프로그램이 실행되면서 클래스라는 설계도를 이용하여
+메모리에 할당되어서 값을 저장하거나 실행된다. 실행용도
+인스터스화 = 메모리에 할당되었다.
+
+자바의 객체란
+대부분 인스턴스랑 혼용하여 사용하거나 추상적으로 동작을 하는 물체
+등을 나타낸다. 객체지향프로그래밍, 부모객체, 자식개체
+
+
+정적 static : 프로그램이 실행될때 정적 메모리에 탄생한다. 1개 뿐이다.
+동적 heap : 프로그램이 실행되는 중간에 탄생했다가 죽었다가
+    또 탄생하는 객체가 저장되는 메모리이다. 무한대 가능.
+    메소드는 1개만 탄생한다.
+스택메모리 : 함수의 매개변수와 지역변수나 함수명령어의 복귀주소 등등이
+    저장된다.
+
+for 루프 :
+for(초기문; 조건문; 증감문) {
+	루프에서 실행할 문장들;
+	break; : 블록,루프를 빠져나온다.
+	continue; : 루프의 다음반복을 처리한다.
+}
+1.초기문을 실행한다. 생략가능
+2.조건문이 참이면 for블록의 문장들을 실행한다.
+     거짓이면 for 블록을 빠져나온다.
+3.증감문을 실행한다.
+4.조건문이 참이면 for블록의 문장들을 실행한다.
+     거짓이면 for 블록을 빠져나온다.
+3. 4. 3. 4. ..... 조건문이 거짓일때까지 반복한다.
+
+잘하는 프로그래머가 될려면 데이터 형 변환을 잘해야 합니다.
+즉 데이터형을 제대로 맞춰줘야 합니다.
+기본데이터형 뿐만 아니라 사용자정의데이터도 제대로 변환해야한다.
+
+
+# CSS
+
+## CSS를 코딩하는 3가지 방법
+1. HTML element 의 <div style="color: red; font-size: 12pt;">~~</div> style 속성의 값으로 선언한다.
+   Inline CSS
+2. HTML 문서의 <style> ~~~~ </style> style tag 안에 선언된다.
+   Internal CSS : style 태그, 요소
+3. HTML 문서의 <link rel="stylesheet" href="css파일경로" /> link 태그로 선언한다.
+   External CSS : link 태그의 rel 은 stylsheet 이고, href 는 css 파일경로
+
+## CSS 에서 어떤 요소(태그)를 지정하는지 selector 하는 방법으로 선언한다.
+- XPath
+	//*[@id="main"]/div[4]/h3
+	//* 모든 요소[@id="아이디명"], 요소이름[몇번째], / 하위
+- Full XPath
+	/html/body/div[5]/div/div[2]/div[1]/div[1]/div[4]/h3
+	요소이름[몇번째], 	/ 하위
+
+- JSPath
+	java script 에서 DOM 의 위치를 찾는 문법
+	Selector 를 사용한다.
+	let h3element = document.querySelector("#main > div.w3-example > h3")
+	h3element.innerText = "값";
+
+- Selector => 요소이름 #아이디명  .클래스명  > 하위
+	#main > div.w3-example > h3
+
+## CSS 속성 값 선언 문법
+- <style>
+	요소이름 ... 요소이름 {
+		CSS속성이름: 값;
+		...
+		CSS속성이름: 값;
+	}
+	#아이디명 {
+		CSS속성이름: 값;
+		...
+	}
+	.클래스명 {
+		CSS속성이름: 값;
+		...
+	}
+	태그이름#아이디명 {
+	}
+	태그이름.클래스명 {
+	}
+  </style>
+- <link rel="stylesheet" href="CSS파일경로" />
+  CSS파일 안에 서술한다.
+  <style> ~~~~ </style> 부분의 style 태그를 제외한 innerText 부분을 서술한다.
+
+## CSS 의 아이디
+	HTML 의 id="myId" 아이디값을 사용해야 합니다. 그러므로 한개의 요소에 CSS 이 적용됩니다.
+	selector 에서 #myId 으로 나타낸다.
+
+## CSS 의 클래스
+	HTML 의 class="myClass myJob myNm" 클래스명을 사용해야 합니다. 그러므로 클래스명이 같은 요소들에게 적용됩니다.
+	selector 에서 .myClass 으로 나타낸다. 
+
+	<div id="test"></div>
+	<div class="testClass"></div>
+	<div class="testClass"></div>
+
+## : 기호로 표시되는것, 의사클래스, 요소의 특정상태 : 마우스올릴때, 클릭될때, 클릭안될때
+https://www.w3schools.com/css/css_pseudo_classes.asp
+
+
+## :: 기호로 표시되는것, 요소의 특정값 : 첫번째글짜, 첫줄, ..
+
+
+# JavaScript
+
+## JavaScript를 코딩하는 3가지 방법
+1. html 태그의 이벤트(onclick, ondbclick, onmouseover,...)의 내용에 JS 문법으로 코딩한다.
+
+2. html 태그의 <script> ~~~ </script> script 태그 안에 JS 문법으로 코딩한다.
+
+3. html 태그의 <script src="JS파일경로" /> script 태그의 src 속성에 JS파일 경로를 지정한다.
+   script 속성 : language="JavaScript"
+
+## JavaScript 코딩 문법 1
+https://www.w3schools.com/js/js_statements.asp
+예약어
+- let 으로 변수,객체 선언해야 한다.
+- const 는 변하지 않는 값을 선언해야 한다. "aaa", 44
+- if 는 조건문을 판단하여 참이면 if 블록을 실행한다.
+	if (조건문) 명령어; => 조건문이 참이면 명령어를 실행한다.
+	if (조건문) {
+		블록 명령어들; => 조건문이 참이면 블록안의 명령어들을 실행한다.
+	}
+	if (조건문) {
+		조건문이 참일때 실행하는 명령어들;
+	} else {
+		조건문이 거짓일때 실행하는 명령어들;
+	}
+	if (조건문1) {
+		조건문1이 참일때 실행하는 명령어들;
+	} else if (조건문2) {
+		조건문1이 거짓이고 조건문2가 참일때 실행하는 명령어들;
+	} else if (조건문3) {
+		조건문1이 거짓이고 조건문2가 거짓이고 조건문3이 참일때 실행하는 명령어들;
+	} else {
+		if들의 모든 조건문이 거짓일때 실행하는 명령어들;
+	}
+	조건문의 결과는 항상 참/거짓으로 판단한다.
+- switch 는 상태변수의 값에 따라 case 부분으로 분기한다.
+	switch (변수/객체) {
+		case 'a':
+			명령어 a;	=> 상태변수의 값이 'a' 이면 case 'a' 부분을 실행한다.
+			break;	=> switch 블록을 빠져나간다.
+		case 'b':
+			명령어 b1;
+			명령어 b2;	=> 변수의 값이 'b' 이면 case 'b' 부분을 실행한다.
+						break 가 없으므로 case 'c' 부분을 실행한다.
+		case 'c':
+			명령어 c1;	=> 변수의 값이 'c' 이면 case 'c' 부분을 실행한다.
+			break;	=> switch 블록을 빠져나간다.
+		default:
+			명령어 d1;	=> case 부분의 값이 아닌경우에 실행한다.
+			// break;	=> default 부분은 맨 마지막이므로 break 가 없어도 된다.
+	}
+- for 는 루프제어를 만든다.
+	for (시작문1, 시작문2; 조건문; 증감문1, 증감문2) {
+		for 명령어들
+	}
+	1. 시작문들을 실행한다.
+	2. 조건문을 판별하여 참이면 for 명령어들을 실행한다.
+	3. 증감문들을 실행한다.
+	2. 3. 2. 3. 2. 3. 2. 3. ---> 2 조건문이 거짓이면 for 블록을 빠져나간다.
+- function 는 JavaScript 함수를 선언한다.
+	function 함수이름(매개변수1, 매개변수2, 매개변수들, ...) {
+		function 명령어들;
+		return 값/변수/객체;	=> 함수가 종료되고 값을 리턴한다.
+	}
+	=> 함수이름과 매개변수 형태로 호출이 가능한 함수를 선언한다.
+	let 함수이름 = (매개변수1, 매개변수2, 매개변수들, ...) => {
+	}
+	배열객체.forEach(function(매개변수) {
+		실행문장들;
+	});
+	배열객체.forEach((매개변수) => {
+		실행문장들;
+	});
+	
+	function func() {
+		let a = 123;
+		....
+		..
+		return 값;
+	} => func 함수 선언하는 부분
+	
+	function func2(i) {
+		let b = 222;
+		...
+		let c = func(); => func 함수 호출하여 실행하는 부분
+		...
+	}
+- try ~ catch 는 예외를 처리하는 로직을 선언한다.
+	try {
+		명령어들1;
+		명령어들2;
+		함수호출 명령어들3;
+		함수호출 명령어들4;
+	} catch (ex1) {
+		예외처리 명령어들1;
+		예외처리 명령어들2;
+	}
+	=> try 블록안의 명령어들을 실행하다가 예외가 발생하면 catch 블록의 명령어들 실행한다.
+
+	문법에러 (Syntax Error, 컴파일 에러) : 컴파일러가 문법의 에러를 발견하고 에러 표시한다.
+	Runtime Error : 프로그램을 실행하다가 에러가 발생하는 경우 => try ~ catch 에서 처리해야한다.
+
+	try {
+		...
+		// 예외가 발생할 수 있는 명령어들을 try 블록으로 감싼다.
+		...
+	} catch(e) {
+		// try 블록에서 예외가 발생하면 try 블록 실행을 중지하고
+		// 예외에 대한 정보를 e 객체에 저장하고 catch 블록을 실행한다.
+		...
+	} finally {
+		// 예외가 발생하든 하지 않든간에 try ~ catch ~ 실행이 끝나면 finally 블록을 실행한다.
+		...
+	}
+	
+	throw 예외객체; ==> 하나의 문장입니다. 다음문장을 실행 안한다.
+		- try 바깥에서는 예외객체를 상위 루틴으로 던진다. 상위루틴 : 자기 함수를 호출한 곳
+		- try 블록안에서는 예외객체를 catch(매개변수) 의 값으로 catch 블록을 실행한다.
+## JavaScript 코딩 문법 2
+https://www.w3schools.com/js/js_syntax.asp
+
+## 연산자의 결과는 거의 할당연산, 조건판단 연산이 마지막으로 처리된다.
+	1. 연산자 실행 순서 숫자연산 (곱하기, 나누기, 나머지) => 더하기, 빼기
+	2. 연산순서는 왼쪽 => 오른쪽, 특별한 우선순위는 () 로 먼저 처리한다.
+	3. 비트시프트연산은 << 곱하기 , >> 나누기
+	4. 비트논리연산은 비트의 1, 0 를 구분한다.
+	5. 비교연산으로 참/거짓으로 처리한다.
+	6. 논리연산으로 참/거짓으로 처리한다. 
+	7. 할당연산자
+
+## 단항연산자
+	항이 하나인 연산을 처리한다.
+	a++, ++b, a--, --b, !a, -b
+
+## 이항연산자
+	항이 두개인 연산을 처리한다.
+	a+b, i-10, &&
+
+## 삼항연산자
+	항이 세개인 연산을 처리한다.
+	let j = (조건식 ? 참일때실행 : 거짓일때실행);
+
+## 할당연산자
+	저장할공간(변수,객체) = 값,함수리턴,변수,객체;
+	저장할공간(a) += 값,함수리턴,변수,객체(b);	=> a += b; => a = a + b;
+	저장할공간(a) /= 값,함수리턴,변수,객체(b);	=> a /= b; => a = a / b;
+
+## typeof
+	typeof 객체 => 객체의 데이터 타입을 단어로 출력됩니다.
+	객체 instanceof 데이터타입 => 참/거짓으로 출력
+	
+# 객체
+## 객체는 JS 로 선언하는 방법이 다양하다.
+- 객체타입.prototype.멤버변수/멤버메소드 = 서술한다.
+
+- class 객체타입{
+	멤버변수 (프로퍼티)
+	멤버메소드 (메소드)
+}
+
+- function 객체타입(매개변수1, 매개변수2) {
+	this.멤버변수1 = 매개변수1;
+	this.멤버변수2 = 매개변수2;
+}
+
+## 객체를 생성할때 생성자없이 생성하는 방법
+let a = {name:"aaa", age:15};
+
+## 객체를 생성할때 생성자로 생성하는 방법
+class 객체타입/클래스 {
+	constructor() {	// 매개변수 없는 기본생성자
+	}
+	constructor(num) {	// 매개변수 있는 비기본 생성자
+	}
+}
+
+let 객체변수 = new 객체타입/클래스();	=> 기본생성자
+let 객체 = new 객체타입/클래스(45);	=> 비기본 생성자
+
+
+## ES5
+// JavaScript 에서 클래스 선언하고 객체 탄생하는 방법으로 사용한다.
+class Human {
+	height = 180; // 인스턴스 변수, 멤버변수
+	name = "";
+	age = 0;
+
+	constructor(name, age) {	// 비기본 생성자
+		// this는 클래스가 생성할 인스턴스를 가리킨다.
+		this.name = name;
+		this.age = age;
+	}
+
+	print() {
+		console.log("이름은 " + this.name + ", 나이는 " + this.age
+		 + ", 키는 " + this.height);
+	}
+}
+
+let human1 = new Human("이순신", 30);
+human1.print();
+let human2 = new Human("홍길동", 25);
+human2.print();
+
+
+# 클래스 상속 선언
+
+class 클래스명 {
+	멤버변수들;
+	constructor(생성자 매개변수) {
+		// 생성자 실행 명령어들;
+	}
+	메소드(매개변수) {
+		// 메소드 실행 명령어들;
+	}
+}
+
+let 객체변수명 = new 클래스();
+객체변수명.멤버변수/멤버메소드()
+
+class 자식클래스 extends 부모클래스 {
+	자식멤버변수들;
+	constructor(생성자 매개변수) {
+		// 자식의 생성자 실행 명령어들;
+	}
+	자식메소드(매개변수) {
+		// 자식의 메소드 실행 명령어들;
+	}
+}
+
+let 자식 = new 자식클래스();
+자식.부모속성과 자식.부모메소드 를 사용할 수 있다.
+
+
+## String 클래스의 속성(프로퍼티, 멤버변수)과 메소드를 사용하여 아래의 문제를 해결한다.
+https://www.w3schools.com/js/js_string_methods.asp
+- Javascript strings are primitive and immutable: All string methods produce a new string without altering the original string.
+- 위의 문장을 각 단어가 원소인 배열로 변환하기
+	=> ["Javascript", "strings", "are", ....]
+
+- 대문자 -> 소문자, 소문자는 -> 대문자로 바꾸어서 문장으로 만들기
+	=> jAVASCRIPT STRINGS ARE ....
+
+- 위의 문장에서 [string] 이라는 단어를 [문자열] 으로 변환하기
+	=> Javascript 문자열s are ....
+	
+- ["Javascript", "strings", "are", ....]
+ 에서 string 단어가 있는 배열의 요소 위치를 찾기
+
+- ["Javascript", "strings", "are", ....]
+ 에서 string 단어가 있는 배열의 요소를 찾기
+
+- ["Javascript", "strings", "are", ....]
+ 알파벳 순서로 요소를 오름차순으로 정렬하기 A, B, .-> a, b, .
+ 숫자배열 정렬 : points.sort(function(a, b){return a - b});
+
+ 문자열배열 정렬 : const fruits = ["Banana", "Orange", "Apple", "Mango"];
+				fruits.sort();
+
+- [36, 122, 79, 8, "무궁화", 391, "words", 509, 20192
+, "B", 321, 473, 73, "france", "Korea", 24, 99]
+console.log() => 출력
+1. 위 배열을 오름차순으로 정렬해서 출력하세요.
+2. 가장 큰 값을 출력 하세요
+3. 짝수인 요소만 배열로 출력하세요
+4. 문자열인 요소만 대문자로 변경하여 출력하세요.
+
+
+## for 블록, 연속적인 동작을 실행할때 매우 유용하다. (주로 배열, Collection, iteration)
+for ( 시작문; 조건문; 증감문 ) {
+	for의 명령어들;
+}
+
+### forEach (배열, Collection, iteration)
+- 배열객체에 forEach 로 배열요소 모두에 대한 연속적인 명령을 실행한다.
+배열객체.forEach(function(각각의 배열요소를 뜻하는 매개변수명 item){
+	item 이라는 이름으로 각각의 배열요소를 처리할 수 있다.
+	......
+});
+
+### map (배열, Collection, iteration)
+- 각각의 원소에 대해서 연속적인 명령을 실행하고 새로운 배열/Collection/Iteration객체를 만들어서 리턴한다.
+let 새로운배열객체 = 배열객체.map(function(각각의 원소를 뜻하는 매개변수명, index, 배열객체){
+	map 에서 함수로 실행할 명령어들;
+});
+
+### reduce (배열, Collection, Iteration)
+- 각각의 원소에 대해서 연속적인 명령을 실행하고 마지막에 하나의 값을 리턴한다.
+let 하나의객체 = 배열객체.reduce(function(각각의 원소를 뜻하는 매개변수명, index, 배열객체) {
+	recude 에서 함수로 실행할 명령어들;
+	// 마지막에는 하나의 값으로 리턴된다.
+});
+
+# JavaScript 날짜를 처리하는 Date 객체
+## getMonth() 가 0 ~ 11 까지 출력되므로 +1 해야 한다.
+
+
+
+# Math 객체
+Math.round(x)	: 정수 반올림
+Math.ceil(x)	: 정수 올림
+Math.floor(x)	: 정수 내림
+Math.trunc(x)	: floor 같음
+Math.random()	: 0 ~ 1 사이의 소숫점 랜덤 한 값을 리턴한다.
+
+# 문제
+if (x > 10) {
+	a 블록;
+} else if (y < 20) {
+	b 블록;
+} else {
+	if (x < 3) {
+		c 블록;
+	} else {
+		d 블록;	==> if (x >=3 && x <= 10)
+	}
+}
+
+if ( x > 30 ) {
+	c 블록
+} else if ( x > 20 ) {
+	b 블록
+} else if ( x > 10 ) {
+	a 블록
+}
+
+## break 는 자기자신의 루프블록을 빠져나간다.
+
+## continue 는 자기자신의 루프블록의 꼭대기로 올라간다.
+ for 문에서는 증감문실행, 조건문실행 위쪽으로 올라간다.
+ while 문에서는 조건문실행 위쪽으로 올라간다.
+ do ~ while 문에서는 블록의 꼭대기로 올라간다.
+
+# Map
+- 키:값 의 한쌍으로 된 데이터를 계속 저장하는 자료형태
+- 맵객체.get(키); ==> 값을 리턴한다.
+- 맵객체.set(키, 값);	==> 키에 해당하는 값을 저장한다.
+- for .. of,  forEach 가능하다.
+
+## 
+let myFunction = (a, b) => a * b;
+===>
+function myFunction(a, b) {
+	return a * b;
+}
+let myFunction =  function(a, b) {
+	return a * b;
+}
+
+## 4월 14일 문제
+1번 로또 만들기
+1~45번 까지의 숫자 5개 + 보너스1개 를 랜덤으로 만든다.
+중복된 숫자는 제거한다.
+숫자 6개 저장되는 배열 선언하여 오름차순으로 정렬한다.
+Math.random()
+곱하기
+Math.floor(값)
+
+2번 문제10번 별찍기
+3번 문제12번 게임캐릭터클래스
+4번 문제13번 let strInput = prompt("입력하세요");
+5번 문제16번
+
+
+
+## 4월16일 문제
+문제19번 => 클래스 한개 생성
+문제25번(Option) => 클래스 한개 생성, 멤버 메소드 생성
+문제26번 => 클래스 한개 생성

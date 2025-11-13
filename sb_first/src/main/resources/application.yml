@@ -1,0 +1,11 @@
+# Spring Boot 설정값 저장
+spring:
+  application:
+    name: sb_first
+  thymeleaf:
+    enabled: true
+    suffix: .html
+    cache: false
+
+server:
+  port: 18080

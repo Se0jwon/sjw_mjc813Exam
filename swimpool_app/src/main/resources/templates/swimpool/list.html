@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수영장 정보 목록</title>
+    <link href="/smbg/css/styles.css" rel="stylesheet" />
+    <style>
+        .wrap {
+            /* 전체 화면의 스타일 */
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            /* 화면 안의 내용이 있는 곳의 스타일 */
+            width: 80%;
+            height: 100%;
+            margin: 20px auto;
+        }
+
+        .modal_popup {
+            /* 모달 화면 안의 스타일, z-index: 값이 가장 크므로 화면의 상위에 표현된다.*/
+            width: 70%;
+            height: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: azure;
+            display: flex;
+            flex-flow: column;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /*z-index: 999;*/
+        }
+
+        .modal_background {
+            /* 모달 화면이 나타나면 화면 안의 내용 div id="content" 를 어둡게 만든다.
+                z-index 값을 content 보다 크므로 마우스 클릭시 modal_bg 에 클릭이 된다.
+             */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /*z-index: 99;*/
+        }
+
+        .nowPage {
+            color: red;
+        }
+    </style>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script>
+        $(document).ready(function(){
+            // html파일이 로딩 완료되면 jquery 가 자동으로 실행한다.
+            $.loadData();   // jquery 함수 실행
+
+            $('#showAddModalButton').click(function () {
+                // jQuery 의 객체가 클릭되면 실행할 함수를 등록 (이벤트/핸들러 방식)
+                // id="modal_box_add" 요소를 1000ms 동안 서서히 보여준다.
+                $("#titleForm").text("입력");
+                $("#insertActionButton").show();
+                $("#updateButton").hide();
+                $("#updateActionButton").hide();
+                $("#deleteActionButton").hide();
+                $('.modal_popup').fadeIn(300);
+                $('.modal_background').fadeIn(300);
+            });
+
+            $('.modalCloseButton').click(function () {
+                // jQuery 의 객체가 클릭되면 실행할 함수를 등록 (이벤트/핸들러 방식)
+                // id="modal_box_add" 요소와 class="modal_bg" 요소를 서서히 감춘다.
+                $('.modal_popup').fadeOut();
+                $('.modal_background').fadeOut();
+            });
+
+            $("#updateButton").click(function() {
+                $("#titleForm").text("수정");
+
+                $("#inName").removeAttr("disabled");
+                $("#inPhoneNumber").removeAttr("disabled");
+                $("#inAddr").removeAttr("disabled");
+                $("#inLaneType").removeAttr("disabled");
+                $("#inLanes").removeAttr("disabled");
+
+                $("#updateButton").hide();
+                $("#updateActionButton").show();
+            });
+
+            $("#updateActionButton").on("click", function(){
+                $.update();
+            });
+
+        });
+
+        // alert("read cookie jquery : " + $.cookie("mycookie2"));
+        // $.cookie("mycookie2", "Student", { expires: 60 * 3 });
+
+        $.loadData = () => {
+            $.list();   // jquery 함수 실행
+        }
+
+        $.listOld = function() {
+            $.ajax({
+                // javascript 의 Ajax 모태로 만든 jQuery Ajax 를 실행한다.
+                // ajax : 비동기 자바스크립트 http 통신 방법
+                url: '/api/v1/swimpool/list'
+                , type: 'get'
+            }).done(function(result, textStatus, jqXHR) {
+                // ajax 비동기 요청 실행후에 서버에서 정상 응답이 왔을때 실행
+                console.log("Success:", result);
+                $.printList(result.data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // ajax 비동기 요청 실행후에 에러 응답이 왔을때 실행
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                $.showError(jqXHR.responseJSON);
+                // alert(`${jqXHR.responseJSON.responseEnum} : ${jqXHR.responseJSON.message}`);
+            });
+        }
+
+        $.printList = (list) => {
+            let strHtml = "";
+            for ( let i = 0; i < list.length; i++ ) {
+                strHtml += $.makeOneRow(list[i]);
+                // 배열의 객체만큼 loop 를 돌면서 html 출력 문자열을 만든다.
+            }
+            $("#listPrint").empty();
+            $("#listPrint").append(strHtml);
+            // listPrint ID 인 태그에 자식으로 뒷부분에 계속 추가한다.
+        }
+
+        $.makeOneRow = (item) => {
+            // 1개 객체의 정보를 div card 형태로 출력 html 문자열을 리턴 한다.
+            let str = `\
+<!--            <div class="row gx-4 gx-lg-5">\-->
+            <div class="col-md-4 mb-5">\
+                <div class="card h-100">\
+                    <div class="card-body">\
+                        <h2 class="card-title">${item.name}</h2>\
+                        <div>형태 : ${item.laneType}</div>\
+                        <div>개수 : ${item.lanes}</div>\
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" onclick="$.selectOne(${item.id});">${item.phoneNumber}</a></div>
+                    </div>\
+<!--                </div>\-->
+                </div>\
+            </div>`;
+            return str;
+        }
+
+        $.showInsertPopup = () => {
+            $('.modal_popup').fadeIn(300);
+            $('.modal_background').fadeIn(300);
+        }
+
+        $.insert = function() {
+            let inputData = {
+                "name" : $("#inName").val()
+                , "phoneNumber": $("#inPhoneNumber").val()
+                , "addr": $("#inAddr").val()
+                , "laneType": $("#inLaneType").val()
+                , "lanes": $("#inLanes").val()
+            };
+            $.ajax({
+                url: '/api/v1/swimpool'
+                , type: 'post'
+                , data: JSON.stringify(inputData)
+                , datatype: 'JSON'
+                , contentType: 'application/json'
+            }).done(function(result, textStatus, jqXHR) {
+                // ajax 비동기 요청 실행후에 서버에서 정상 응답이 왔을때 실행
+                console.log("Success:", result);
+                $.printList(result.data);
+                $.closeInputPopup();
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // ajax 비동기 요청 실행후에 에러 응답이 왔을때 실행
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                let msg = "";
+                for( let i = 0; i < jqXHR.responseJSON.errors.length; i++ ) {
+                    msg += `${jqXHR.responseJSON.errors[i].codes[1]} : ${jqXHR.responseJSON.errors[i].defaultMessage}\n`;
+                }
+                alert(msg);
+            });
+        }
+
+        $.closeInputPopup = () => {
+            $.clearInputPopup();
+            // $('.modal_popup').fadeOut(300);
+            // $('.modal_background').fadeOut(300);
+            $(".modalCloseButton").trigger("click");
+            $.list();
+        }
+        $.clearInputPopup = function() {
+            $("#inName").val("");
+            $("#inPhoneNumber").val("");
+            $("#inAddr").val("");
+            $("#inLaneType").val("25");
+            $("#inLanes").val("");
+        }
+
+        $.selectOne = function(id) {
+            $.ajax({
+                // javascript 의 Ajax 모태로 만든 jQuery Ajax 를 실행한다.
+                // ajax : 비동기 자바스크립트 http 통신 방법
+                url: '/api/v1/swimpool/' + id
+                , type: 'get'
+            }).done(function(result, textStatus, jqXHR) {
+                // ajax 비동기 요청 실행후에 서버에서 정상 응답이 왔을때 실행
+                console.log("Success:", result);
+                $.showOne(result.data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // ajax 비동기 요청 실행후에 에러 응답이 왔을때 실행
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                $.showError(jqXHR.responseJSON);
+                // alert(`${jqXHR.responseJSON.responseEnum} : ${jqXHR.responseJSON.message}`);
+            });
+        }
+
+        $.showOne = function(item) {
+            $("#titleForm").text("보기");
+            $("#insertActionButton").hide();
+            $("#updateButton").show();
+            $("#updateActionButton").hide();
+            $("#deleteActionButton").show();
+
+            $("#id").val(item.id);
+            $("#inName").val(item.name);
+            $("#inPhoneNumber").val(item.phoneNumber);
+            $("#inAddr").val(item.addr);
+            $("#inLaneType").val(item.laneType);
+            $("#inLanes").val(item.lanes);
+
+            $("#inName").attr("disabled", "true");
+            $("#inPhoneNumber").attr("disabled", "true");
+            $("#inAddr").attr("disabled", "true");
+            $("#inLaneType").attr("disabled", "true");
+            $("#inLanes").attr("disabled", "true");
+
+            $('.modal_popup').fadeIn(300);
+            $('.modal_background').fadeIn(300);
+        }
+
+        $.update = function() {
+            let updateData = {
+                "id" : $("#id").val()
+                , "name" : $("#inName").val()
+                , "phoneNumber": $("#inPhoneNumber").val()
+                , "addr": $("#inAddr").val()
+                , "laneType": $("#inLaneType").val()
+                , "lanes": $("#inLanes").val()
+            };
+
+            $.ajax({
+                url: '/api/v1/swimpool/' + $("#id").val()
+                , type: 'patch'
+                , data: JSON.stringify(updateData)
+                , datatype: 'json'
+                , contentType: 'application/json'
+            }).done(function(result, textStatus, jqXHR) {
+                // ajax 비동기 요청 실행후에 서버에서 정상 응답이 왔을때 실행
+                console.log("Success:", result);
+                $(".modalCloseButton").trigger("click");
+                $.list();
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // ajax 비동기 요청 실행후에 에러 응답이 왔을때 실행
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                $.showError(jqXHR.responseJSON);
+                // alert(`${jqXHR.responseJSON.responseEnum} : ${jqXHR.responseJSON.message}`);
+            });
+        }
+
+        $.delete = function() {
+            $.ajax({
+                url: '/api/v1/swimpool/' + $("#id").val()
+                , type: 'delete'
+            }).done(function(result, textStatus, jqXHR) {
+                // ajax 비동기 요청 실행후에 서버에서 정상 응답이 왔을때 실행
+                console.log("Success:", result);
+                $(".modalCloseButton").trigger("click");
+                $.list();
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // ajax 비동기 요청 실행후에 에러 응답이 왔을때 실행
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                $.showError(jqXHR.responseJSON);
+                // alert(`${jqXHR.responseJSON.responseEnum} : ${jqXHR.responseJSON.message}`);
+            });
+        }
+
+        $.showError = function(errorObject) {
+            alert( `code:${errorObject.code}, Enum:${errorObject.responseEnum}` );
+        }
+
+        $.goPage = (nPage) => {
+            $("#curPage").val(nPage);
+            $.list();
+        }
+
+
+        $.list = function() {
+            let searching = {
+                "resultList": {
+                    "rowsPage": $("#rowsPage").val()
+                    , "curPage": $("#curPage").val()
+                }
+                , "name": $("#searchName").val()
+                , "laneType": $("#searchLaneType").val()
+                , "phoneNumber": $("#searchPhoneNumber").val()
+                , "addr": $("#searchAddr").val()
+            };
+            $.ajax({
+                // javascript 의 Ajax 모태로 만든 jQuery Ajax 를 실행한다.
+                // ajax : 비동기 자바스크립트 http 통신 방법
+                url: '/api/v1/swimpool/find'
+                , type: 'post'
+                , data: JSON.stringify(searching)
+                , datatype: 'JSON'
+                , contentType: 'application/json'
+            }).done(function(result, textStatus, jqXHR) {
+                // ajax 비동기 요청 실행후에 서버에서 정상 응답이 왔을때 실행
+                console.log("Success:", result);
+                $.printSearchingResult(result.data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                // ajax 비동기 요청 실행후에 에러 응답이 왔을때 실행
+                console.log("Error:", jqXHR, textStatus, errorThrown);
+                $.showError(jqXHR.responseJSON);
+            });
+        }
+
+        $.printSearchingResult = function(resultData) {
+            $("#totalRow").text(resultData.totalRow);
+            $.printList(resultData.data);
+            $.printPageFavButtons(resultData);
+        }
+
+        $.printPageFavButtons = function(resultData) {
+            // curPage	rowsPage	totalRows	totalPage
+            // 1		3			10			12/3 = 4 page
+            // 1        3		    12			14/3 = 4 page
+            // 1        3		    2			4/3 = 1 page
+            //                                  (totalRow + rowsPage - 1) / rowsPage = totalPage
+            // 12		3			120			122/3 = 40 page
+            //      <<  <  11 [12] 13 14 15 16 17 18 19 20 > >>
+            //      << < 8 9 10 11 [12] 13 14 15 16 > >>
+            //          printPage = 5 / 2 => 2;
+            // 2번 방법
+            let printPages = 5;
+            let rowsPage = resultData.rowsPage * 1;
+            let curPage = Number(resultData.curPage);
+            let totalRow = resultData.totalRow * 1;
+            let totalPage = (totalRow + rowsPage - 1) / rowsPage;   // 전체행과 페이지당데이터수를 이용하여 전체페이지수를 구했다.
+            let prevString = $.makePrevButtonString(curPage);
+            let nextString = $.makeNextButtonString(curPage, totalPage);
+            let startPageNumber = (curPage <= (printPages + 1) / 2) ? 1 : (curPage - Math.floor(printPages / 2));
+            // 페이지버튼5개 출력할때 시작번호
+            let buttonString = $.makeButtonPageString(curPage, totalPage, printPages, startPageNumber);
+            console.log(prevString + buttonString + nextString);
+            $("#listButton").html(prevString + buttonString + nextString);
+            // id="listButton" 태그의 안에 html 태그를 썻다.
+        }
+
+        $.makePrevButtonString = function (curPage) {
+            // 이전 페이지 이동 버튼
+            let prevString = "";
+            if ( curPage - 10 >= 1 ) {
+                prevString += `<button onclick="$.goPage(${curPage - 10})">◀</button>`;
+                // 현재페이지 - 10 계산한 페이지로 이동
+            }
+            if ( curPage - 1 >= 1 ) {
+                prevString += `<button onclick="$.goPage(${curPage - 1})">←</button>`;
+                // 현재페이지 - 1 계산한 페이지로 이동
+            }
+            return prevString;
+        }
+
+        $.makeNextButtonString = (curPage, totalPage) => {
+            // 이후 페이지 이동 버튼
+            let nextString = "";
+            if ( curPage + 1 <= totalPage ) {
+                nextString += `<button onclick="$.goPage(${curPage + 1})">→</button>`;
+                // 현재페이지 + 1 계산한 페이지로 이동
+            }
+            if ( curPage + 10 <= totalPage ) {
+                nextString += `<button onclick="$.goPage(${curPage + 10})">▶</button>`;
+                // 현재페이지 + 10 계산한 페이지로 이동
+            }
+            return nextString;
+        }
+
+        $.makeButtonPageString = (curPage, totalPage, printPages, nPage) => {
+            // nPage 부터 시작하여 printPages 까지 또는 전체페이지까지 버튼을 출력한다.
+            let buttonString = "";
+            for (let cnt = 1; cnt <= printPages && nPage <= totalPage; cnt++) {
+                if (nPage === curPage) {
+                    // 현재 페이지의 클래스를 추가한다.
+                    buttonString += `<button class="nowPage" onclick="$.goPage(${nPage})">${nPage}</button>`;
+                } else {
+                    buttonString += `<button onclick="$.goPage(${nPage})">${nPage}</button>`;
+                }
+                nPage++;
+            }
+            return buttonString;
+        }
+    </script>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="content" style="z-index: 7;">
+        <div class="container px-4 px-lg-5">
+            <div class="card text-white bg-secondary my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">수영자 정보 목록</p></div>
+                <div class="card-footer">
+                    <div>
+                        <label for="searchName">이름포함</label><input type="text" id="searchName" >
+                        <label for="searchPhoneNumber">전화</label><input type="text" id="searchPhoneNumber" >
+                        <label for="searchAddr">주소</label><input type="text" id="searchAddr" >
+                        <label for="searchLaneType">타입</label>
+                            <select id="searchLaneType">
+                                <option value="">ALL</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                        <label for="rowsPage">페이지당행수</label>
+                        <select id="rowsPage">
+                            <option value="3">3</option>
+                            <option value="9">9</option>
+                            <option value="18">18</option>
+                            <option value="45">45</option>
+                            <option value="90">90</option>
+                        </select>
+                        <input type="number" id="curPage" style="width:50px;"/>
+                        <div>검색행수 (<div id="totalRow"></div>)</div>
+                        <div><button onclick="$.list();">검색</button></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Content Row-->
+            <div id="listPrint" class="row gx-4 gx-lg-5">
+            </div>
+            <div id="listButton" class="row gx-4 gx-lg-5">
+            </div>
+        </div>
+        <div class="modal_popup" style="display: none; z-index: 9;">
+            <h1>수영장 <span id="titleForm">입력</span></h1>
+            <input type="hidden" id="id" name="id" value=""/>
+            <div><label for="inName">이름 : </label><input type="text" id="inName" value="" maxlength="20"/></div>
+            <div><label for="inPhoneNumber">번호 : </label><input type="text" id="inPhoneNumber" value="" maxlength="20"/></div>
+            <div><label for="inAddr">주소 : </label><input type="text" id="inAddr" value="" maxlength="20"/></div>
+            <div><label for="inLaneType">레인타입 : </label><select id="inLaneType" ><option value="25">25</option><option value="50">50</select></div>
+            <div><label for="inLanes">레인수 : </label><input type="number" id="inLanes" value="" maxlength="2" /></div>
+            <div><button id="insertActionButton" onclick="$.insert();">등록</button></div>
+            <div><button id="updateButton">수정</button></div>
+            <div><button id="updateActionButton">수정확인</button></div>
+            <div><button id="deleteActionButton" onclick="$.delete();">삭제</button></div>
+            <div><button class="modalCloseButton">닫기</button></div>
+        </div>
+        <div class="modal_background" style="display: none; z-index: 8;"></div>
+        <div>
+            <button onclick="$.showInsertPopup();">수영자추가1</button>
+            <button id="showAddModalButton">수영자추가2</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

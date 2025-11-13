@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|구구단 ${number}|"></title>
+    <!-- thymeleaf 은 model의 변수값과 html 문장이 혼합이 쉽지 않다. 해결해보세요.-->
+</head>
+<body>
+    <h1>구구단 [[${number}]]단</h1>
+    <!-- thymeleaf 은 model의 변수값과 html 문장이 혼합이 쉽지 않다. 해결해보세요.-->
+    <ul>
+        <li th:each="item : ${array}" th:text="${item}"></li>
+    </ul>
+</body>
+</html>

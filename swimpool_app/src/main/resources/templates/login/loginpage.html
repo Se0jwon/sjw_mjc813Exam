@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <div>
+        {{#loginUser}}
+        <div>
+            <div>로그인한 사람 id : <span>{{id}}</span></div>
+            <div>로그인한 사람 이름 : <span>{{name}}</span></div>
+            <div>로그인한 사람 아이디 : <span>{{username}}</span></div>
+            <div>로그인한 사람 권한 : <span>{{role}}</span></div>
+            <input id="id" type="hidden" value="{{id}}"/>
+            <input id="newPassword" type="password" />
+            <div onclick="$.tryChangePassword();">RestFul 암호변경</div>
+            <form method="post" action="/api/v1/mpa/logout">
+                <button>form로그아웃</button>
+            </form>
+            <div onclick="$.tryLogout();">ajax로그아웃</div>
+        </div>
+        {{/loginUser}}
+        {{^loginUser}}
+        <form method="post" onsubmit="$.submit();" name="loginForm">
+            <select id="choice">
+                <option value="spring_mpa">스프링</option>
+                <option value="session_mpa">세션</option>
+                <option value="cookie_mpa">쿠키</option>
+            </select>
+            <input type="text" id="username" name="username"/>
+            <input type="password" id="password" name="password"/>
+            <button>form로그인</button>
+        </form>
+        <div onclick="$.tryLogin();">ajax로그인</div>
+        <a href="/loginpage/findpasswd">비밀번호찾기</a>
+        {{/loginUser}}
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+
+    });
+
+    $.tryLogin = function() {
+        let loginData = {
+            "username" : $("#username").val()
+            , "password" : $("#password").val()
+        }
+        let subUrl = "cookie_rest";
+        if ( $("#choice").val() === "spring_mpa" ) {
+            subUrl = "spring_rest";
+        } else if ( $("#choice").val() === "session_mpa" ) {
+            subUrl = "session_rest";
+        }
+        let url = `/api/v1/${subUrl}/login`;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(loginData),
+            datatype: "JSON",
+            contentType: 'application/json',
+        })
+            .done(function(a, b, c){
+                alert('로그인성공');
+                document.location.href = "/";
+            })
+            .fail(function(a, b, c){
+                alert('로그인실패');
+            })
+    }
+
+    $.tryLogout = function() {
+        $.ajax({
+            url: '/api/v1/rest/logout',
+            type: "POST",
+        })
+            .done(function(a, b, c){
+                alert('로그아웃성공');
+                document.location.href = "/";
+            })
+            .fail(function(a, b, c){
+                alert('로그아웃실패');
+            })
+    }
+
+    $.tryChangePassword = function() {
+        let changeData = {
+            "id" : $("#id").val()
+            , "password" : $("#newPassword").val()
+        }
+        let url = `/api/v1/changepassword`;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(changeData),
+            datatype: "JSON",
+            contentType: 'application/json',
+        })
+            .done(function(a, b, c){
+                alert('암호변경성공');
+                $.tryLogout();
+            })
+            .fail(function(a, b, c){
+                alert('암호변경실패');
+            })
+    }
+
+    $.submit = function() {
+        document.loginForm.action = "/api/v1/" + $("#choice").val() + "/login";
+        document.loginForm.submit();
+    }
+</script>
+</html>

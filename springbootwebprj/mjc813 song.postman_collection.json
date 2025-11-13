@@ -1,0 +1,286 @@
+{
+	"info": {
+		"_postman_id": "0558b091-f422-4965-9718-77a7131e2b26",
+		"name": "mjc813 song",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16448427"
+	},
+	"item": [
+		{
+			"name": "genre",
+			"item": [
+				{
+					"name": "genre insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"헤비메탈2345643654356435643564356435643564357654876547654ㅕㅓㅎㄹ오ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ로ㅓㅎ러\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8989/genre",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"genre"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "genre update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4433\r\n    , \"name\": \"뽕짝\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8989/genre/aaaaaaaaa",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"genre",
+								"aaaaaaaaa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "genre delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/genre/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"genre",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "genre findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/genre/2222",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"genre",
+								"2222"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "genre findByNameContrains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/genre?name=&page=0&size=10&sort=id,desc",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"genre"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": ""
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "id,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "song",
+			"item": [
+				{
+					"name": "song insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"아기상어2\"\r\n    , \"genreId\": 4\r\n    , \"composer\": \"무명\"\r\n    , \"artist\": \"핑크퐁\"\r\n    , \"releaseDate\": \"1990-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8989/song",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"song"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "song update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4\r\n    , \"artist\": \"김종국\"\r\n    , \"title\": \"근육이야기\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8989/song/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"song",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "song delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/song/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"song",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "song findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/song/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"song",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "song findByTitleContainsAndArtiveContains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/song?title=&artist=s&page=1&size=3&sort=id,desc&sort=title,asc",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"song"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": ""
+								},
+								{
+									"key": "artist",
+									"value": "s"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "id,desc"
+								},
+								{
+									"key": "sort",
+									"value": "title,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

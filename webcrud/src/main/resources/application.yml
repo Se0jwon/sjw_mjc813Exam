@@ -1,0 +1,20 @@
+spring:
+  datasource: # mysql 일경우
+    url: jdbc:mysql://localhost:3306/webcrud_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8	# 데이터베이스 URL
+    driver-class-name: com.mysql.cj.jdbc.Driver  # JDBC 드라이버 클래스 (MySQL의 경우)
+    username: webuser  # 데이터베이스 사용자 이름
+    password: test1234!  # 데이터베이스 비밀번호
+  application:
+    name: webcrud
+  mustache:
+    cache: false
+    suffix: .html
+
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml	# /src/main/resources/mapper/**/*.xml 이곳에서 xml 파일을 검색한다. mapper/abc/*.xml, mapper/dfiek/*.xml, mapper/a/b/c/*.xml 모두 찾는다.
+  configuration:
+    map-underscore-to-camel-case: true	# DB의 컬럼명에 abc_def 언더라인을 abcDef camelCase 변환한다.(Java를 위하여)
+  type-aliases-package: com.mjc813.webcrud
